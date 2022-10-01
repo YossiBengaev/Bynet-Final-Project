@@ -16,7 +16,7 @@ services:
       - '3307:3306'
   web:
     build: .
-    image: "yossibenga/flask_app"
+    image: yossibenga/flask_app
     depends_on:
       db: 
         condition: service_healthy
