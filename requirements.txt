@@ -1,0 +1,9 @@
+Flask
+flask-cors
+mysql-connector-python
+jellyfish
+pandas
+pysftp
+PyYAML
+python-dotenv
+Jinja2
