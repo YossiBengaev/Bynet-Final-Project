@@ -12,11 +12,11 @@ def connection_attendace_csv_to_mysql():
     load_dotenv() 
     with pysftp.Connection(host=os.environ["sftp_hostname"], username=os.environ["sftp_username"], port=22, password=os.environ["sftp_password"], cnopts=cnopts) as sftp:
        print('SFTP Connection successfully established ... ')
-       sftp.get_d(os.environ["sftp_remote_dir"], os.environ["image_csv_dir"], True)
+       sftp.get_d(os.environ["sftp_remote_dir"], os.environ["csv_dir_in_the_container"], True)
     
     conn = msql.connect(host=os.environ["mysql_host"], user=os.environ["mysql_user"], password=os.environ["mysql_password"], database=os.environ["mysql_db"])
     
-    attendance_yona.start(os.environ["image_csv_dir"])
+    attendance_yona.start(os.environ["csv_dir_in_the_container"])
     csv_path = os.getcwd() + '/attendance.csv'
     df_yona = pd.read_csv(csv_path, index_col=False, delimiter=',')
     df_filtered = df_yona[['names', 'average']].copy()
