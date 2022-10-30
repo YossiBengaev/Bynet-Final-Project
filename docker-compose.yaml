@@ -5,10 +5,10 @@ services:
     container_name: db
     restart: always
     environment:
-      MYSQL_USER: 'yossi'
-      MYSQL_ROOT_PASSWORD: '123456'
-      MYSQL_PASSWORD: '123456'
-      MYSQL_DATABASE: 'yossidb'
+      MYSQL_USER: ${mysql_user}
+      MYSQL_ROOT_PASSWORD: ${mysql_password}
+      MYSQL_PASSWORD: ${mysql_password}
+      MYSQL_DATABASE: ${mysql_db}
     healthcheck:
       # healthcheck for checking the mysql container is up before starting my app container
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
@@ -26,7 +26,7 @@ services:
         condition: service_healthy
     ports:
       - "5000:5000"
-    working_dir: /app
+    working_dir: ${csv_dir_in_the_container}
     links:
       - db
 
