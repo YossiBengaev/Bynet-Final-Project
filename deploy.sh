@@ -23,7 +23,8 @@ check_which_machine() {
 }
 
 copy_to_remote_machine() {
-    scp -o StrictHostKeyChecking=no ${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
+    scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Final-Project/docker-compose.yaml ec2-user@test:/home/ec2-user/
+    //scp -o StrictHostKeyChecking=no ${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
 }
 
 # Gobal Variables
