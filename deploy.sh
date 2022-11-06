@@ -31,7 +31,7 @@ copy_to_remote_machine() {
 HOME_DIR="/home/ec2-user"
 JENKINS_DIR="/var/lib/jenkins/workspace/final-project"
 SECRET_KEY="${HOME_DIR}/.ssh/id_rsa.pub"
-FILE_TO_COPY="aaa"
+FILE_TO_COPY="docker-compose.yaml"
 
 echo -e "Starting deploy script...\nFirst checking valid argument..."
 first_arg="$1"
