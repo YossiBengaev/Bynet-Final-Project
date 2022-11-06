@@ -13,34 +13,29 @@ check_too_many_arg () {
 }
 
 check_which_machine() {
-        machine=$1
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; deploy_to_test
+          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine
         elif [ "$machine" = "prod" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" ; deploy_to_prod
+          then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
         else
           echo "Argument must be [prod | test]" ; exit 1
         fi
 }
 
-copy_compose_file_to_remote_machine() {
-    scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@test:/home/ec2-user/Final-Project
+copy_to_remote_machine() {
+    scp -o StrictHostKeyChecking=no ${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
 }
 
-deploy_to_test() {
-    scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@test:/home/ec2-user/Final-Project
-    exit 0
-}
-
-deploy_to_prod() {
-    scp -o StrictHostKeyChecking=no docker-compose.yml ec2-user@production:/home/ec2-user/Final-Project
-    exit 0
-}
-
+# Gobal Variables
+HOME_DIR="/home/ec2-user"
+JENKINS_DIR="/var/lib/jenkins/workspace/final-project"
+SECRET_KEY="${HOME_DIR}/.ssh/id_rsa.pub"
+FILE_TO_COPY="docker-compose.yaml"
 
 echo -e "Starting deploy script...\nFirst checking valid argument..."
 first_arg="$1"
 number_of_args="$#"
 check_too_many_arg $number_of_args
 check_null_arg $first_arg
-check_which_machine $first_arg
+machine=$first_args
+check_which_machine $machine
