@@ -14,7 +14,7 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; echo "scp -o StrictHostKeyChecking=no "$JENKINS_DIR"/"FILE_TO_COPY" ec2-user@"$machine":"$HOME_DIR""
+          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine
         elif [ "$machine" = "prod" ]
           then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
         else
@@ -23,13 +23,13 @@ check_which_machine() {
 }
 
 copy_to_remote_machine() {
-    echo "scp -o StrictHostKeyChecking=no "$JENKINS_DIR"/"FILE_TO_COPY" ec2-user@"$machine":"$HOME_DIR""
+    echo "scp -o StrictHostKeyChecking=no "$JENKINS_DIR"/"$FILE_TO_COPY" ec2-user@"$machine":"$HOME_DIR""
     scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
 }
 
 # Gobal Variables
 HOME_DIR="/home/ec2-user"
-JENKINS_DIR="/var/lib/jenkins/workspace/final-project"
+JENKINS_DIR="/var/lib/jenkins/workspace/Final-Project"
 SECRET_KEY="${HOME_DIR}/.ssh/id_rsa.pub"
 FILE_TO_COPY="docker-compose.yaml"
 
