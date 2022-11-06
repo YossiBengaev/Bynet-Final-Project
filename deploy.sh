@@ -38,5 +38,5 @@ first_arg="$1"
 number_of_args="$#"
 check_too_many_arg $number_of_args
 check_null_arg $first_arg
-machine=$first_args
+machine=$first_arg
 check_which_machine $machine
