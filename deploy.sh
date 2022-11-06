@@ -14,7 +14,7 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine
+          then  echo -e "Pass validition args \nDeploy To test server!!!" ; echo "scp -o StrictHostKeyChecking=no "$JENKINS_DIR"/"FILE_TO_COPY" ec2-user@"$machine":"$HOME_DIR""
         elif [ "$machine" = "prod" ]
           then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
         else
