@@ -14,7 +14,7 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine
+          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine ; copy_tests_dir
         elif [ "$machine" = "production" ]
           then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
         else
@@ -26,11 +26,15 @@ copy_to_remote_machine() {
         scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
 }
 
+copy_tests_dir() {
+        scp -o StrictHostKeyChecking=no -r ${TEST_DIR} ec2-user@${machine}:${HOME_DIR}
+}
+
 # Gobal Variables
 HOME_DIR="/home/ec2-user"
 JENKINS_DIR="/var/lib/jenkins/workspace/Final-Project"
-SECRET_KEY="${HOME_DIR}/.ssh/id_rsa.pub"
 FILE_TO_COPY="docker-compose.yaml"
+TEST_DIR="/var/lib/jenkins/workspace/Final-Project/tests"
 
 echo -e "Starting deploy script...\nFirst checking valid argument..."
 first_arg="$1"
