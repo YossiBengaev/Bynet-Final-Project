@@ -14,16 +14,16 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine
+          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine $machine
         elif [ "$machine" = "prod" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
+          then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine $machine
         else
           echo "Argument must be [prod | test]" ; exit 1
         fi
 }
 
 copy_to_remote_machine() {
-    scp -o StrictHostKeyChecking=no /var/lib/jenkins/workspace/Final-Project/docker-compose.yaml ec2-user@test:/home/ec2-user/
+    scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
     //scp -o StrictHostKeyChecking=no ${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
 }
 
