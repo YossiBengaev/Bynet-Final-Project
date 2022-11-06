@@ -23,8 +23,8 @@ check_which_machine() {
 }
 
 copy_to_remote_machine() {
+    echo "scp -o StrictHostKeyChecking=no "$JENKINS_DIR"/"FILE_TO_COPY" ec2-user@"$machine":"$HOME_DIR""
     scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
-    //scp -o StrictHostKeyChecking=no ${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
 }
 
 # Gobal Variables
