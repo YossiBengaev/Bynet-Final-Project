@@ -15,10 +15,10 @@ check_too_many_arg () {
 check_which_machine() {
         if [ "$machine" = "test" ]
           then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine
-        elif [ "$machine" = "prod" ]
+        elif [ "$machine" = "production" ]
           then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
         else
-          echo "Argument must be [prod | test]" ; exit 1
+          echo "Argument must be [production | test]" ; exit 1
         fi
 }
 
