@@ -7,12 +7,7 @@ pipeline {
         DockerHubURL = 'https://hub.docker.com/repository/docker/yossibenga/flask_app'
         DockerHubRegistryCredential = '90a24bb8-70d5-4b6c-8c60-35de22dc627f'
         DockerImage = 'yossibenga/flask_app'
-        
-        GitHubCredential = '17d0df52-c89a-4d9a-81e4-1b349cd8e72c'
-        GitHubURL = 'https://github.com/YossiBengaev/Bynet-Final-Project.git'
-        GitHubRepositoryName = 'Bynet-Final-Project'
-        GitBranch = 'main'
-        
+              
         SshCredentialTest = credentials('ssh-test')
         SshCredentialProd = credentials('ssh-prod')
         
@@ -24,15 +19,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout'){
-            steps{
-                echo 'STAGE 1 -> Starting Checkout stage...'
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], 
-                userRemoteConfigs: [[credentialsId: '17d0df52-c89a-4d9a-81e4-1b349cd8e72c',
-                url: 'https://github.com/YossiBengaev/Bynet-Final-Project']]])
-                sh 'cp ${JenkinsWorkDir}/.env ${ProjectDir}/.env'
-            }
-        }
         stage('Build') {
             steps {
                 echo 'STAGE 2 -> Starting Build stage...'
