@@ -44,7 +44,7 @@ echo -e "Starting deploy script...\nFirst checking valid argument..."
 HOME_DIR="/home/ec2-user"
 JENKINS_DIR="/var/lib/jenkins/workspace/Final-Project"
 TEST_DIR="/var/lib/jenkins/workspace/Final-Project/tests"
-FILES_TO_COPY="docker-compose.yaml .env cleanup.sh"
+FILES_TO_COPY="docker-compose.yaml .env cleanup_test.sh cleanup_production.sh"
 FIRST_ARG="$1"
 NUM_OF_ARGS="$#"
 
