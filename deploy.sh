@@ -14,10 +14,10 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; hostname 
+          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine ; copy_tests_dir ; run_test_script
           #copy_to_remote_machine ; #copy_tests_dir ; run_test_script
         elif [ "$machine" = "production" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine
+          then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine 
         else
           echo "Argument must be [production | test]" ; exit 1
         fi
@@ -32,7 +32,7 @@ copy_tests_dir() {
 }
 
 run_test_script() {
-        ssh -o StrictHostKeyChecking=no ec2-user@test 'hostname'
+        ssh -o StrictHostKeyChecking=no ec2-user@test '/home/ec2-user/tests/test.sh'
 }
 
 # Gobal Variables
