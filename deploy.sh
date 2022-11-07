@@ -14,9 +14,9 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir 
+          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir && cleanup
         elif [ "$machine" = "production" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! "
+          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! " && cleanup
         else
           echo "Argument must be [production | test]" && exit 1
         fi
@@ -36,12 +36,11 @@ run_test_script() {
 
 run_docker_compose(){
         ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'docker-compose up --no-build -d'
-        cleanup
 }
 
 cleanup(){
         scp -o StrictHostKeyChecking=no cleanup.sh ec2-user@${machine}:${HOME_DIR}
-        ssh -o StrictHostKeyChecking=no ec2-user@test 'sudo chmod u+x /home/ec2-user/cleanup.sh && /home/ec2-user/cleanup.sh 1'
+        ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'sudo chmod u+x /home/ec2-user/cleanup.sh && /home/ec2-user/cleanup.sh 1'
 }
 
 # Gobal Variables
