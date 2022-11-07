@@ -14,7 +14,7 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir && run_test_script
+          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir 
         elif [ "$machine" = "production" ]
           then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! "
         else
@@ -27,7 +27,7 @@ copy_to_remote_machine() {
 }
 
 copy_tests_dir() {
-        scp -o StrictHostKeyChecking=no -r ${TEST_DIR} ec2-user@${machine}:${HOME_DIR}
+        scp -o StrictHostKeyChecking=no -r ${TEST_DIR} ec2-user@${machine}:${HOME_DIR} && run_test_script
 }
 
 run_test_script() {
@@ -36,13 +36,17 @@ run_test_script() {
 
 run_docker_compose(){
         ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'docker-compose up --no-build -d'
+        cleanup
+}
+
+cleanup(){
+        scp -o StrictHostKeyChecking=no cleanup.sh ec2-user@${machine}:${HOME_DIR}
+        ssh -o StrictHostKeyChecking=no ec2-user@test '/home/ec2-user/cleanup.sh 1'
 }
 
 # Gobal Variables
 HOME_DIR="/home/ec2-user"
 JENKINS_DIR="/var/lib/jenkins/workspace/Final-Project"
-#"docker-compose.yaml .env"
-#${JENKINS_DIR}/${FILE_TO_COPY}
 TEST_DIR="/var/lib/jenkins/workspace/Final-Project/tests"
 
 echo -e "Starting deploy script...\nFirst checking valid argument..."
