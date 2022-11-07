@@ -16,7 +16,7 @@ check_which_machine() {
         if [ "$machine" = "test" ]
           then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir && run_test_script
         elif [ "$machine" = "production" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine 
+          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! "
         else
           echo "Argument must be [production | test]" && exit 1
         fi
