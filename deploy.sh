@@ -31,7 +31,7 @@ copy_tests_dir() {
 }
 
 run_test_script() {
-        ssh -o StrictHostKeyChecking=no ec2-user@test '/home/ec2-user/tests/test.sh'
+        ssh -o StrictHostKeyChecking=no ec2-user@test 'chmod 777 /home/ec2-user/tests/test.sh ; /home/ec2-user/tests/test.sh'
 }
 
 # Gobal Variables
