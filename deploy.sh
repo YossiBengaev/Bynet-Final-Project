@@ -14,16 +14,16 @@ check_too_many_arg () {
 
 check_which_machine() {
         if [ "$MACHINE" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir 
+          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && run_docker_compose && copy_tests_dir 
         elif [ "$MACHINE" = "production" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! "
+          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! " && run_docker_compose
         else
           echo "Argument must be [production | test]" && exit 1
         fi
 }
 
 copy_to_remote_machine() {
-        scp -o StrictHostKeyChecking=no ${FILES_TO_COPY} ec2-user@${MACHINE}:${HOME_DIR} && run_docker_compose
+        scp -o StrictHostKeyChecking=no ${FILES_TO_COPY} ec2-user@${MACHINE}:${HOME_DIR} 
 }
 
 copy_tests_dir() {
