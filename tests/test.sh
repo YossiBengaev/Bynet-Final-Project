@@ -5,4 +5,4 @@ if [ "$RESPONSE"="HTTP/1.1 200 OK" ]
   then echo "Http response is 200 it is mean the app is running and you are good to go!!"
  else
   echo "Not so fast! you have code status " + $RESPONSE + " please try again... " ; exit 1
-if
+fi
