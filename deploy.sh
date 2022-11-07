@@ -13,9 +13,9 @@ check_too_many_arg () {
 }
 
 check_which_machine() {
-        if [ "$machine" = "test" ]
+        if [ "$MACHINE" = "test" ]
           then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir 
-        elif [ "$machine" = "production" ]
+        elif [ "$MACHINE" = "production" ]
           then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine && echo "You are running on PRODUCTION ! ! ! ! ! "
         else
           echo "Argument must be [production | test]" && exit 1
@@ -23,11 +23,11 @@ check_which_machine() {
 }
 
 copy_to_remote_machine() {
-        scp -o StrictHostKeyChecking=no docker-compose.yaml .env ec2-user@${machine}:${HOME_DIR} && run_docker_compose
+        scp -o StrictHostKeyChecking=no ${FILES_TO_COPY} ec2-user@${MACHINE}:${HOME_DIR} && run_docker_compose
 }
 
 copy_tests_dir() {
-        scp -o StrictHostKeyChecking=no -r ${TEST_DIR} ec2-user@${machine}:${HOME_DIR} && run_test_script
+        scp -o StrictHostKeyChecking=no -r ${TEST_DIR} ec2-user@${MACHINE}:${HOME_DIR} && run_test_script
 }
 
 run_test_script() {
@@ -35,18 +35,20 @@ run_test_script() {
 }
 
 run_docker_compose(){
-        ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'docker-compose up --no-build -d'
+        ssh -o StrictHostKeyChecking=no ec2-user@${MACHINE} 'docker-compose up --no-build -d'
 }
+
+echo -e "Starting deploy script...\nFirst checking valid argument..."
 
 # Gobal Variables
 HOME_DIR="/home/ec2-user"
 JENKINS_DIR="/var/lib/jenkins/workspace/Final-Project"
 TEST_DIR="/var/lib/jenkins/workspace/Final-Project/tests"
+FILES_TO_COPY="docker-compose.yaml .env cleanup.sh"
+FIRST_ARG="$1"
+NUM_OF_ARGS="$#"
 
-echo -e "Starting deploy script...\nFirst checking valid argument..."
-first_arg="$1"
-number_of_args="$#"
-check_too_many_arg $number_of_args
-check_null_arg $first_arg
-machine=$first_arg
-check_which_machine $machine
+check_too_many_arg $NUM_OF_ARGS
+check_null_arg $FIRST_ARG
+MACHINE=$FIRST_ARG
+check_which_machine $MACHINE
