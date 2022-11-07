@@ -25,6 +25,7 @@ check_which_machine() {
 
 copy_to_remote_machine() {
         scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
+        run_docker-compose
 }
 
 copy_tests_dir() {
@@ -33,6 +34,10 @@ copy_tests_dir() {
 
 run_test_script() {
         ssh -o StrictHostKeyChecking=no ec2-user@test '/home/ec2-user/tests/test.sh'
+}
+
+run_docker_compose(){
+        ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'docker-compose --no-build up'
 }
 
 # Gobal Variables
