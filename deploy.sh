@@ -36,7 +36,7 @@ run_test_script() {
 }
 
 run_docker_compose(){
-        ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'docker-compose up --no-build'
+        ssh -o StrictHostKeyChecking=no ec2-user@${machine} 'docker-compose up --no-build -d'
 }
 
 # Gobal Variables
