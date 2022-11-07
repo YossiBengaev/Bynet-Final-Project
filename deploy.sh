@@ -8,23 +8,22 @@ check_null_arg () {
 
 check_too_many_arg () {
         if [ $1 -gt 1 ] #Check for too many args
-          then  echo -e "Too many arguments supplied \nArgument must be [prod | test]" ; exit 1
+          then  echo -e "Too many arguments supplied \nArgument must be [prod | test]" && exit 1
         fi
 }
 
 check_which_machine() {
         if [ "$machine" = "test" ]
-          then  echo -e "Pass validition args \nDeploy To test server!!!" ; copy_to_remote_machine ; copy_tests_dir ; run_test_script
-          #copy_to_remote_machine ; #copy_tests_dir ; run_test_script
+          then  echo -e "Pass validition args \nDeploy To test server!!!" && copy_to_remote_machine && copy_tests_dir && run_test_script
         elif [ "$machine" = "production" ]
-          then  echo -e "Pass validition args\nDeploy to production server!!!" ; copy_to_remote_machine 
+          then  echo -e "Pass validition args\nDeploy to production server!!!" && copy_to_remote_machine 
         else
-          echo "Argument must be [production | test]" ; exit 1
+          echo "Argument must be [production | test]" && exit 1
         fi
 }
 
 copy_to_remote_machine() {
-        scp -o StrictHostKeyChecking=no docker-compose.yaml .env ec2-user@${machine}:${HOME_DIR} ; run_docker_compose
+        scp -o StrictHostKeyChecking=no docker-compose.yaml .env ec2-user@${machine}:${HOME_DIR} && run_docker_compose
 }
 
 copy_tests_dir() {
