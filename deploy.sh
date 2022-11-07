@@ -24,7 +24,7 @@ check_which_machine() {
 }
 
 copy_to_remote_machine() {
-        scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR} ; run_docker_compose
+        scp -o StrictHostKeyChecking=no docker-compose.yaml .env ec2-user@${machine}:${HOME_DIR} ; run_docker_compose
 }
 
 copy_tests_dir() {
@@ -42,7 +42,8 @@ run_docker_compose(){
 # Gobal Variables
 HOME_DIR="/home/ec2-user"
 JENKINS_DIR="/var/lib/jenkins/workspace/Final-Project"
-FILE_TO_COPY="docker-compose.yaml"
+#"docker-compose.yaml .env"
+#${JENKINS_DIR}/${FILE_TO_COPY}
 TEST_DIR="/var/lib/jenkins/workspace/Final-Project/tests"
 
 echo -e "Starting deploy script...\nFirst checking valid argument..."
