@@ -24,8 +24,7 @@ check_which_machine() {
 }
 
 copy_to_remote_machine() {
-        scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR}
-        run_docker_compose
+        scp -o StrictHostKeyChecking=no ${JENKINS_DIR}/${FILE_TO_COPY} ec2-user@${machine}:${HOME_DIR} ; run_docker_compose
 }
 
 copy_tests_dir() {
