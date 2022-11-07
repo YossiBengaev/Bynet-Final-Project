@@ -41,7 +41,7 @@ run_docker_compose(){
 
 cleanup(){
         scp -o StrictHostKeyChecking=no cleanup.sh ec2-user@${machine}:${HOME_DIR}
-        ssh -o StrictHostKeyChecking=no ec2-user@test '/home/ec2-user/cleanup.sh 1'
+        ssh -o StrictHostKeyChecking=no ec2-user@test 'sudo chmod u+x /home/ec2-user/cleanup.sh && /home/ec2-user/cleanup.sh 1'
 }
 
 # Gobal Variables
