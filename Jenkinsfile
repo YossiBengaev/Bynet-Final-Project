@@ -58,6 +58,9 @@ pipeline {
                     sh './deploy.sh production'
                     }          
                 }
+                    else {
+                        echo 'You decided not to continue to Production.... :('
+                    }
                 }
             }
         }
