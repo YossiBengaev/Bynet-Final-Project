@@ -57,10 +57,9 @@ pipeline {
                     sshagent(['ssh-prod']) {
                     sh './deploy.sh production'
                     }          
-                }
-                    else {
-                        echo 'You decided not to continue to Production.... :('
-                    }
+                } else {
+                    echo 'You decided not to continue to Production.... :('
+                  }
                 }
             }
         }
