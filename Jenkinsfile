@@ -51,6 +51,7 @@ pipeline {
         stage('Prod'){
             steps{
                 echo 'STAGE 5 -> Starting Production stage...'
+                input("continue to production?")
                 sshagent(['ssh-prod']) {
                     sh './deploy.sh production'
                 }
