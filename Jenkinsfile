@@ -12,10 +12,7 @@ pipeline {
         SshCredentialProd = credentials('ssh-prod')
         
         JenkinsWorkDir = '/var/lib/jenkins'
-        JenkinsJobDir = '/var/lib/jenkins/workspace/Final-Project'
         ProjectDir = '/var/lib/jenkins/workspace/Final-Project'
-        ProjectTestDir = '/home/ec2-user/Final-Project'
-        HomeDir="/home/ec2-user"
     }
 
     stages {
@@ -76,12 +73,20 @@ pipeline {
                     sh 'chmod 777 $ProjectDir/cleanup_test.sh'
                     sh './cleanup_test.sh 1'
                 }
-                sshagent(['ssh-prod']) {
-                    echo 'now start with production server..'
-                    sh 'chmod 777 $ProjectDir/cleanup_production.sh'
-                    sh './cleanup_production.sh 1'
-                }
+                def USER_INPUT = input(message: 'Clean the Production ? ? ?',
+                                        parameters: [[$class: 'ChoiceParameterDefinition', choices: ['No','Yes do it!'].join('\n'),
+                                        name: 'It is your choice to decide', description: 'Menu - select box option']])
+                     if( "${USER_INPUT}" == "Yes do it!"){
+                        sshagent(['ssh-prod']) {
+                            echo 'now start with production server..'
+                            sh 'chmod 777 $ProjectDir/cleanup_production.sh'
+                            sh './cleanup_production.sh 1'
+                        }          
+                     } else {
+                            echo 'You decided not to clean the Production.. Do not forget to do it later by your self..'
+                       }
                 deleteDir() /* clean up our workspace */
+                echo 'See you next time.. :-) '
             }
         }
     }
