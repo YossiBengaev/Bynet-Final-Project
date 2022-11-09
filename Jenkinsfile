@@ -79,7 +79,7 @@ pipeline {
                                         name: 'It is your choice to decide', description: 'Menu - select box option']])
                      if( "${USER_INPUT2}" == "Yes do it!"){
                         sshagent(['ssh-prod']) {
-                            sh './cleanup.sh'
+                            sh './cleanup.sh production'
                         }          
                      } else {
                             echo 'You decided not to clean the Production.. Do not forget to do it later by your self..'
