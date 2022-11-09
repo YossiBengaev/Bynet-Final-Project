@@ -52,12 +52,12 @@ pipeline {
             steps{
                 echo 'STAGE 5 -> Starting Production stage...'
                 script {
-                def USER_INPUT = input("continue to production?")
-                if( "${USER_INPUT}" == "Proceed"){
+                def USER_INPUT = input(message:"continue to production?" ok:"Yes do it!")
+                if( "${USER_INPUT}" == "Yes do it!"){
                     sshagent(['ssh-prod']) {
                     sh './deploy.sh production'
                     }          
-                }  else if( "${USER_INPUT}" == "Abort"){
+                }  else{
                     echo 'You decided not to continue to Production.... :('
                   }
                 }
