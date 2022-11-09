@@ -70,17 +70,17 @@ pipeline {
                 echo 'start to cleanup after you...'
                 sshagent(credentials:['ssh-test']) {
                     echo 'starting with Test server..'
-                    sh 'chmod 777 $ProjectDir/cleanup_test.sh'
-                    sh './cleanup_test.sh 1'
+                    sh 'chmod 777 $ProjectDir/cleanup.sh'
+                    sh './cleanup.sh test'
                 }
+                echo 'now start with production server..'
                 def USER_INPUT = input(message: 'Clean the Production ? ? ?',
                                         parameters: [[$class: 'ChoiceParameterDefinition', choices: ['No','Yes do it!'].join('\n'),
                                         name: 'It is your choice to decide', description: 'Menu - select box option']])
                      if( "${USER_INPUT}" == "Yes do it!"){
                         sshagent(['ssh-prod']) {
-                            echo 'now start with production server..'
-                            sh 'chmod 777 $ProjectDir/cleanup_production.sh'
-                            sh './cleanup_production.sh 1'
+                            sh 'chmod 777 $ProjectDir/cleanup.sh'
+                            sh './cleanup.sh'
                         }          
                      } else {
                             echo 'You decided not to clean the Production.. Do not forget to do it later by your self..'
