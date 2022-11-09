@@ -49,10 +49,10 @@ pipeline {
             steps{
                 echo '# # # # # STAGE 4 -> Starting Production stage... # # # # #'
                 script {
-                     def USER_INPUT = input(message: 'continue to production ? ? ?',
+                     def USER_INPUT1 = input(message: 'continue to production ? ? ?',
                                         parameters: [[$class: 'ChoiceParameterDefinition', choices: ['No','Yes do it!'].join('\n'),
                                         name: 'It is your choice to decide', description: 'Menu - select box option']])
-                     if( "${USER_INPUT}" == "Yes do it!"){
+                     if( "${USER_INPUT1}" == "Yes do it!"){
                         sshagent(['ssh-prod']) {
                             sh './deploy.sh production'
                         }          
@@ -68,18 +68,17 @@ pipeline {
             echo 'One way or another, I have finished'
             script{
                 echo 'start to cleanup after you...'
+                sh 'chmod 777 $ProjectDir/cleanup.sh'
                 sshagent(credentials:['ssh-test']) {
                     echo 'starting with Test server..'
-                    sh 'chmod 777 $ProjectDir/cleanup.sh'
                     sh './cleanup.sh test'
                 }
                 echo 'now start with production server..'
-                def USER_INPUT = input(message: 'Clean the Production ? ? ?',
+                def USER_INPUT2 = input(message: 'Clean the Production ? ? ?',
                                         parameters: [[$class: 'ChoiceParameterDefinition', choices: ['No','Yes do it!'].join('\n'),
                                         name: 'It is your choice to decide', description: 'Menu - select box option']])
-                     if( "${USER_INPUT}" == "Yes do it!"){
+                     if( "${USER_INPUT2}" == "Yes do it!"){
                         sshagent(['ssh-prod']) {
-                            sh 'chmod 777 $ProjectDir/cleanup.sh'
                             sh './cleanup.sh'
                         }          
                      } else {
