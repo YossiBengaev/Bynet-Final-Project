@@ -21,7 +21,7 @@ pipeline {
                 sh 'cp ${JenkinsWorkDir}/.env ${ProjectDir}/.env'
                 echo '# # # # # STAGE 1 -> Starting Build stage... # # # # #'
                 script {
-                    dockerImage = docker.build("yossibenga/flask_app:latest")
+                    dockerImage = docker.build("$DockerHubRegistry:latest")
                 }
             }
         }
