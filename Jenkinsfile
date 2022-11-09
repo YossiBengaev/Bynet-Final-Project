@@ -52,9 +52,9 @@ pipeline {
             steps{
                 echo 'STAGE 5 -> Starting Production stage...'
                 script {
-                     def USER_INPUT = input(message: 'User input required - Some Yes or No question?',
-                                        parameters: [[$class: 'ChoiceParameterDefinition', choices: ['no','yes'].join('\n'),
-                                        name: 'input', description: 'Menu - select box option']])
+                     def USER_INPUT = input(message: 'continue to production ? ? ?',
+                                        parameters: [[$class: 'ChoiceParameterDefinition', choices: ['No','Yes do it!'].join('\n'),
+                                        name: 'continue to production', description: 'Menu - select box option']])
                     echo "The answer is: ${USER_INPUT}"
 
                      if( "${USER_INPUT}" == "yes"){
