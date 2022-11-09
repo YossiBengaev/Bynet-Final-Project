@@ -22,7 +22,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'cp ${JenkinsWorkDir}/.env ${ProjectDir}/.env'
-                echo 'STAGE 2 -> Starting Build stage...'
+                echo '# # # # # STAGE 1 -> Starting Build stage... # # # # #'
                 script {
                     dockerImage = docker.build("yossibenga/flask_app:latest")
                 }
@@ -30,7 +30,7 @@ pipeline {
         }
         stage('Push To DockerHub') {
             steps {
-                echo 'STAGE 3 -> Starting Push To DockerHub stage...'
+                echo '# # # # # STAGE 2 -> Starting Push To DockerHub stage... # # # # #'
                 script {
                     withDockerRegistry([ credentialsId: "$DockerHubRegistryCredential", url: "" ]) {
                     dockerImage.push()
@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Test'){
             steps{
-                echo 'STAGE 4 -> Starting Test stage...'
+                echo '# # # # # STAGE 3 -> Starting Test stage... # # # # #'
                 sshagent(credentials:['ssh-test']) {
                     sh 'chmod u+x $ProjectDir/deploy.sh'
                     sh './deploy.sh test'
@@ -50,28 +50,18 @@ pipeline {
         }
         stage('Prod'){
             steps{
-                echo 'STAGE 5 -> Starting Production stage...'
+                echo '# # # # # STAGE 4 -> Starting Production stage... # # # # #'
                 script {
                      def USER_INPUT = input(message: 'continue to production ? ? ?',
                                         parameters: [[$class: 'ChoiceParameterDefinition', choices: ['No','Yes do it!'].join('\n'),
-                                        name: 'continue to production', description: 'Menu - select box option']])
-                    echo "The answer is: ${USER_INPUT}"
-
-                     if( "${USER_INPUT}" == "yes"){
+                                        name: 'It is your choice to decide', description: 'Menu - select box option']])
+                     if( "${USER_INPUT}" == "Yes do it!"){
                         sshagent(['ssh-prod']) {
                             sh './deploy.sh production'
                         }          
                      } else {
                             echo 'You decided not to continue to Production.... :('
                        }
-                //def USER_INPUT = input(message:"continue to production?" ok:"Yes do it!")
-                //if( "${USER_INPUT}" == "Yes do it!"){
-                    //sshagent(['ssh-prod']) {
-                    //sh './deploy.sh production'
-                    //}          
-                //}  else{
-                    //echo 'You decided not to continue to Production.... :('
-                  //}
                 }
             }
         }
