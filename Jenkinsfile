@@ -57,7 +57,7 @@ pipeline {
                     sshagent(['ssh-prod']) {
                     sh './deploy.sh production'
                     }          
-                } else {
+                }  elsif( "${USER_INPUT}" == "Abort"){
                     echo 'You decided not to continue to Production.... :('
                   }
                 }
