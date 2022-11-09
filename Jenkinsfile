@@ -52,24 +52,18 @@ pipeline {
             steps{
                 echo 'STAGE 5 -> Starting Production stage...'
                 script {
-                     def USER_INPUT = input(
-                    message: 'User input required - Some Yes or No question?',
-                    parameters: [
-                            [$class: 'ChoiceParameterDefinition',
-                             choices: ['no','yes'].join('\n'),
-                             name: 'input',
-                             description: 'Menu - select box option']
-                    ])
+                     def USER_INPUT = input(message: 'User input required - Some Yes or No question?',
+                                        parameters: [[$class: 'ChoiceParameterDefinition', choices: ['no','yes'].join('\n'),
+                                        name: 'input', description: 'Menu - select box option']])
+                    echo "The answer is: ${USER_INPUT}"
 
-            echo "The answer is: ${USER_INPUT}"
-
-            if( "${USER_INPUT}" == "yes"){
-                 sshagent(['ssh-prod']) {
-                    sh './deploy.sh production'
-                    }          
-            } else {
-                echo 'You decided not to continue to Production.... :('
-            }
+                     if( "${USER_INPUT}" == "yes"){
+                        sshagent(['ssh-prod']) {
+                            sh './deploy.sh production'
+                        }          
+                     } else {
+                            echo 'You decided not to continue to Production.... :('
+                       }
                 //def USER_INPUT = input(message:"continue to production?" ok:"Yes do it!")
                 //if( "${USER_INPUT}" == "Yes do it!"){
                     //sshagent(['ssh-prod']) {
@@ -102,4 +96,4 @@ pipeline {
         }
     }
 }
-}
+
