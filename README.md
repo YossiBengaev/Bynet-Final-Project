@@ -6,7 +6,3 @@ FRONTEND - Flask application with HTML.
 BACKEND - Python scripts.
 DATABASE- MySQL.
 
-DOCKER:
-1. Dockerfile to my Application.
-2. Docker Compose to my App & MySQL container.
-
